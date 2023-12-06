@@ -5,6 +5,8 @@ import {FC} from 'react';
 import {Button, SafeAreaView, StyleSheet, View} from 'react-native';
 import * as yup from 'yup';
 import SubmitBtn from '@components/form/submitBtn';
+import Icon from 'react-native-vector-icons/AntDesign';
+
 
 const signupSchema = yup.object({
   name: yup
@@ -69,6 +71,8 @@ const SignUp: FC<Props> = props => {
             containerStyle={styles.marginBottom}
           />
           <SubmitBtn title="Sign Up" />
+
+          <Icon name="stepforward" color='white' size={30} />
         </View>
       </Form>
     </SafeAreaView>
