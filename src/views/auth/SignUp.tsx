@@ -1,12 +1,19 @@
 import AuthInputField from '@components/form/AuthInputField';
 import Form from '@components/form';
 import colors from '@utils/color';
-import {FC} from 'react';
-import {Button, SafeAreaView, StyleSheet, View} from 'react-native';
+import {FC, useState} from 'react';
+import {
+  Button,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import * as yup from 'yup';
 import SubmitBtn from '@components/form/submitBtn';
-import Icon from 'react-native-vector-icons/AntDesign';
-
+import PasswordVisibilityIcon from '@ui/PasswordVisibilityIcon';
+import AppLink from '@ui/AppLink';
 
 const signupSchema = yup.object({
   name: yup
@@ -39,8 +46,29 @@ const initialValues = {
 };
 
 const SignUp: FC<Props> = props => {
+  const [secureEntry, setSecureEntry] = useState(true);
+
+  const togglePasswordView = () => {
+    setSecureEntry(!secureEntry);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{width: '100%', paddingHorizontal: 15, marginBottom: 20}}>
+        <Image source={require('../../assets/logo.png')} />
+        <Text
+          style={{
+            color: colors.SECONDARY,
+            fontSize: 25,
+            fontWeight: 'bold',
+            paddingVertical: 5,
+          }}>
+          Welcome!
+        </Text>
+        <Text style={{color: colors.CONTRAST, fontSize: 16}}>
+          Let's get started by creating your account.
+        </Text>
+      </View>
       <Form
         onSubmit={values => {
           console.log(values);
@@ -67,12 +95,16 @@ const SignUp: FC<Props> = props => {
             placeholder="********"
             label="Password"
             autoCapitalize="none"
-            secureTextEntry
+            secureTextEntry={secureEntry}
             containerStyle={styles.marginBottom}
+            rightIcon={<PasswordVisibilityIcon privateIcon={secureEntry} />}
+            onRightIconPress={togglePasswordView}
           />
           <SubmitBtn title="Sign Up" />
-
-          <Icon name="stepforward" color='white' size={30} />
+          <View style={styles.linkContainer}>
+            <AppLink title="I lost my password" />
+            <AppLink title="Sign in" />
+          </View>
         </View>
       </Form>
     </SafeAreaView>
@@ -93,6 +125,12 @@ const styles = StyleSheet.create({
   marginBottom: {
     marginBottom: 20,
   },
+  linkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  }
 });
 
 export default SignUp;
